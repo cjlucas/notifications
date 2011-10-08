@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>notifications</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Module&nbsp;notifications
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="notifications-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module notifications</h1><p class="nomargin-top"><span class="codelink"><a href="notifications-pysrc.html">source&nbsp;code</a></span></p>
+<p>Client for the iOS app &quot;Notifications&quot; (aka &quot;Push 
+  4.0&quot;).</p>
+  <p>http://www.appnotifications.com/</p>
+  <p>This  module helps  scripts to  use  the HTTP  REST API  of the  
+  `Notifications' application, which is  available for the iPhone and the  
+  iPod Touch. It supports finding  the  user's credentials  token,  and  
+  then  sending notification  in  a synchronous or asynchronous way. This 
+  modules provides three functions:</p>
+  <p>get_credentials() -- Get the user's credentials token send() -- Send a
+  notification, waiting for it to be sent. send_async() -- Send a  
+  notification, returning immediately, without waiting for the message to 
+  be sent.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        0.3
+      </p>
+      <p><strong>Author:</strong>
+        Thomas Jost &lt;thomas.jost@gmail.com&gt;,Chris Lucas 
+        &lt;cjlucas07@gmail.com&gt;
+      </p>
+</div><!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bytes</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="notifications-module.html#get_credentials" class="summary-sig-name">get_credentials</a>(<span class="summary-sig-arg">email</span>,
+        <span class="summary-sig-arg">password</span>)</span><br />
+      Get the user's credentials token.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="notifications-pysrc.html#get_credentials">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">bool</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="notifications-module.html#send" class="summary-sig-name">send</a>(<span class="summary-sig-arg">credentials</span>,
+        <span class="summary-sig-arg">message</span>,
+        <span class="summary-sig-arg">title</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">subtitle</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">long_message</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">long_message_preview</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">icon_url</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">message_level</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">silent</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">action_loc_key</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">run_command</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">sound</span>=<span class="summary-sig-default">1</span>,
+        <span class="summary-sig-arg">debug</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Send a notification, waiting for the message to be sent.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="notifications-pysrc.html#send">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="notifications-module.html#send_async" class="summary-sig-name">send_async</a>(<span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Send  a  notification, returning  immediately,  without  waiting for
+      the message to be sent.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="notifications-pysrc.html#send_async">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="notifications-module.html#CREDENTIALS_URL" class="summary-name">CREDENTIALS_URL</a> = <code title="'https://www.appnotifications.com/user_session.xml'"><code class="variable-quote">'</code><code class="variable-string">https://www.appnotifications.com/user_sessi</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="notifications-module.html#SEND_URL" class="summary-name">SEND_URL</a> = <code title="'https://www.appnotifications.com/account/notifications.xml'"><code class="variable-quote">'</code><code class="variable-string">https://www.appnotifications.com/account/notificat</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_py3"></a><span class="summary-name">_py3</span> = <code title="False">False</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Function Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="get_credentials"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_credentials</span>(<span class="sig-arg">email</span>,
+        <span class="sig-arg">password</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="notifications-pysrc.html#get_credentials">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the user's credentials token.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>email</code></strong> (str) - user's email address</li>
+        <li><strong class="pname"><code>password</code></strong> (str) - user's password</li>
+    </ul></dd>
+    <dt>Returns: bytes</dt>
+        <dd>A unique token required to access the API</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>AssertionError</strong></code> - Is raised if:
+        <ul>
+          <li>
+            The HTTP response code is not 200
+          </li>
+          <li>
+            If the token cannot be found (usually caused by incorrect email
+            and/or password info)
+          </li>
+        </ul></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="send"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">send</span>(<span class="sig-arg">credentials</span>,
+        <span class="sig-arg">message</span>,
+        <span class="sig-arg">title</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">subtitle</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">long_message</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">long_message_preview</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">icon_url</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">message_level</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">silent</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">action_loc_key</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">run_command</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">sound</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">debug</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="notifications-pysrc.html#send">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Send a notification, waiting for the message to be sent.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>credentials</code></strong> (bytes or str) - the API token returned by <a 
+          href="notifications-module.html#get_credentials" 
+          class="link">get_credentials</a></li>
+        <li><strong class="pname"><code>message</code></strong> - The message used for the alert window when the notification 
+          appears.</li>
+        <li><strong class="pname"><code>title</code></strong> (str) - The title of the notification in the notifications list. 
+          (optional)</li>
+        <li><strong class="pname"><code>subtitle</code></strong> (str) - The subtitle of the notification in the notifications list. We 
+          suggest you use this to give more informations, for example &#8220;RSS:
+          a feed&#8221;. (optional)</li>
+        <li><strong class="pname"><code>long_message</code></strong> (str) - The notification when the user select it in the list, this is the
+          long text. (optional)</li>
+        <li><strong class="pname"><code>long_message_preview</code></strong> (str) - The preview under the title in the listing, we suggest you don&#8217;t 
+          put any HTML there. (optional)</li>
+        <li><strong class="pname"><code>icon_url</code></strong> (str) - The icon on the left in the listing. (optional)</li>
+        <li><strong class="pname"><code>message_level</code></strong> (int) - the importance of the notification, from -2 to 2.</li>
+        <li><strong class="pname"><code>silent</code></strong> (bool) - Should this be silent? (no alert window, just a badge number).</li>
+        <li><strong class="pname"><code>action_loc_key</code></strong> (str) - The name of the validation button (optional)</li>
+        <li><strong class="pname"><code>run_command</code></strong> (str) - todo</li>
+        <li><strong class="pname"><code>sound</code></strong> (int) - Select the sound you want for the notification. The sound should 
+          be a number that correlates to <a 
+          href="https://gist.github.com/1217045" target="_top">this 
+          list</a>. (Valid range: 1-40)</li>
+        <li><strong class="pname"><code>debug</code></strong> (bool) - When set to True, the XML result of the HTTP request is written 
+          to sys.stderr</li>
+    </ul></dd>
+    <dt>Returns: bool</dt>
+        <dd>A  boolean  indicating  if  the  message  was  sent successfully.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Is raised if:
+        <ul>
+          <li>
+            Invalid user credentials were given
+          </li>
+          <li>
+            Invalid message was given
+          </li>
+          <li>
+            Sound param is not within valid range
+          </li>
+          <li>
+          </li>
+        </ul></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The first two arguments (credentials  and message) are mandatory, 
+        all of the others are optional. They are  the same as the various 
+        identifiers described in    the   documentation     of      the   
+        Notifications     HTTP   REST     API 
+        (http://developer.appnotifications.com/p/user_notifications.html).
+      </p>
+</div></td></tr></table>
+</div>
+<a name="send_async"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">send_async</span>(<span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="notifications-pysrc.html#send_async">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Send  a  notification, returning  immediately,  without  waiting for  
+  the message to be sent.</p>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>args</code></strong> - see <a href="notifications-module.html#send" 
+          class="link">send</a></li>
+        <li><strong class="pname"><code>kwargs</code></strong> - see <a href="notifications-module.html#send" 
+          class="link">send</a>
+          <p>This function does return the ID of the thread that does the 
+          HTTP request.</p></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="CREDENTIALS_URL"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">CREDENTIALS_URL</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">https://www.appnotifications.com/user_session.xml</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="SEND_URL"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">SEND_URL</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">https://www.appnotifications.com/account/notifications.xml</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Oct  8 14:42:03 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
