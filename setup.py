@@ -5,10 +5,10 @@ from notifications import __version__
 
 setup(name="notifications",
       version=__version__,
-      description="Client for the iPhone/iPod Touch `Notifications' app",
+      description="""Client for the iOS app "Notifications" (aka "Push 4.0").""",
       author="Thomas Jost",
       author_email="thomas.jost@gmail.com",
-      url="http://code.schnouki.net/p/notifications/",
+      url="https://github.com/cjlucas/notifications",
       license="ISC",
       py_modules=['notifications'],
       classifiers=[
