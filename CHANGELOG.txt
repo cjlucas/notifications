@@ -1,0 +1,7 @@
+v0.3 (Chris Lucas)
+------------------
+- Python 3 support
+
+v0.2 (Thomas Jost)
+--------------------
+- Initial Release
