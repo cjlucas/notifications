@@ -15,9 +15,9 @@
 # OTHER  TORTIOUS ACTION,  ARISING  OUT OF  OR  IN CONNECTION  WITH  THE USE  OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-"""Client for the iOS "Notifications" (aka "Push 4.0") app.
+"""Client for the iOS app "Notifications" (aka "Push 4.0").
 
-ttp://www.appnotifications.com/
+http://www.appnotifications.com/
 
 This  module helps  scripts to  use  the HTTP  REST API  of the  `Notifications'
 application, which is  available for the iPhone and the  iPod Touch. It supports
@@ -31,7 +31,8 @@ the message to be sent.
 
 """
 
-__author__ = "Thomas Jost <thomas.jost@gmail.com>, Chris Lucas <cjlucas07@gmail.com>"
+__author__ = ("Thomas Jost <thomas.jost@gmail.com>,"
+			"Chris Lucas <cjlucas07@gmail.com>")
 __version__ = "0.3"
 
 import sys
@@ -41,116 +42,185 @@ import xml.dom.minidom
 _py3 = sys.version_info > (3,)
 
 if _py3:
-	from urllib.request import urlopen
-	from urllib.parse import urlencode
+	from urllib.request import urlopen #@UnusedImport
+	from urllib.parse import urlencode #@UnusedImport
 else:
-	from urllib import urlencode, urlopen
-	
+	from urllib import urlencode, urlopen #@Reimport @UnresolvedImport
+
 CREDENTIALS_URL = "https://www.appnotifications.com/user_session.xml"
 SEND_URL = "https://www.appnotifications.com/account/notifications.xml"
 
 def get_credentials(email, password):
-    """Get the user's credentials token."""
-    
-    # Create data to POST
-    data = {
-        'user_session[email]': email,
-        'user_session[password]': password
-    }
-    data = urlencode(data).encode('utf-8')
+	"""Get the user's credentials token.
+	
+	@param email: user's email address
+	@type email: str
+	
+	@param password: user's password
+	@type password: str
+	
+	@return: A unique token required to access the API
+	@rtype: bytes
+	
+	@raise AssertionError: Is raised if:
+		- The HTTP response code is not 200
+		- If the token cannot be found (usually caused by incorrect
+		email and/or password info)
+	"""
 
-    # Send them
-    u = urlopen(CREDENTIALS_URL, data)
-    success = (u.getcode() == 200)
-    if not success:
-        return(False)
+	# Create data to POST
+	data = {
+		'user_session[email]': email,
+		'user_session[password]': password
+	}
+	data = urlencode(data).encode('utf-8')
 
-    # Parse the XML response
-    response = u.read()
-    u.close()
-    doc = xml.dom.minidom.parseString(response)
-    token = doc.getElementsByTagName("single-access-token")
-    if len(token) == 0:
-        return(False)
-    return(token[0].firstChild.data)
+	# Send them
+	u = urlopen(CREDENTIALS_URL, data)
+	resp_code = u.getcode()
+	assert resp_code == 200, "HTTP Response Code: {0}".format(resp_code)
+
+	# Parse the XML response
+	response = u.read()
+	u.close()
+	doc = xml.dom.minidom.parseString(response)
+	token = doc.getElementsByTagName("single-access-token")
+	assert len(token) > 0, \
+		"single-access-token couldn't be found. Email and password correct?"
+
+	return(token[0].firstChild.data)
 
 
 def send(credentials, message, title=None, subtitle=None, long_message=None,
-         long_message_preview=None, icon_url=None, message_level=0, silent=False,
-         action_loc_key=None, run_command=None, sound=1, debug=False):
-    """Send a notification, waiting for the message to be sent.
+		 long_message_preview=None, icon_url=None, message_level=0, silent=False,
+		 action_loc_key=None, run_command=None, sound=1, debug=False):
+	"""Send a notification, waiting for the message to be sent.
 
-    The first two arguments (credentials  and message) are mandatory, all of the
-    others are optional. They are  the same as the various identifiers described
-    in    the   documentation    of    the   Notifications    HTTP   REST    API
-    (http://developer.appnotifications.com/p/user_notifications.html).
+	@param credentials: the API token returned by L{get_credentials}
+	@type credentials: bytes or str
+	
+	@param message: The message used for the alert window when 
+	the notification appears.
+	@type: message: str
+	
+	@param title: The title of the notification in the notifications list. (optional)
+	@type title: str
+	
+	@param subtitle: The subtitle of the notification in the 
+	notifications list. We suggest you use this to give more informations, 
+	for example “RSS: a feed”. (optional)
+	@type subtitle: str
+	
+	@param long_message: The notification when the user select it in the list, 
+	this is the long text. (optional)
+	@type long_message: str
+	
+	@param long_message_preview: The preview under the title in the listing, 
+	we suggest you don’t put any HTML there. (optional)
+	@type long_message_preview: str
+	
+	@param icon_url: The icon on the left in the listing. (optional)
+	@type icon_url: str
+	
+	@param message_level: the importance of the notification, from -2 to 2.
+	@type message_level: int
+	
+	@param silent: Should this be silent? (no alert window, just a badge number).
+	@type silent: bool
+	
+	@param action_loc_key: The name of the validation button (optional)
+	@type action_loc_key: str
+	
+	@param run_command: todo
+	@type run_command: str
+	
+	@param sound: Select the sound you want for the notification. The sound
+	should be a number that correlates to 
+	U{this list<https://gist.github.com/1217045>}. (Valid range: 1-40)
+	@type sound: int
+	
+	@param debug: When set to True, the XML result of the HTTP request is
+	written to sys.stderr
+	@type debug: bool
+	
+	@return: A  boolean  indicating  if  the  message  was  sent
+	successfully.
+	@rtype: bool
+	
+	@raise ValueError: Is raised if:
+		- Invalid user credentials were given
+		- Invalid message was given
+		- Sound param is not within valid range
+		- 
+	
+	@note: The first two arguments (credentials  and message) are mandatory, 
+	all of the others are optional. They are  the same as the various identifiers 
+	described in	the   documentation	of	the   Notifications	HTTP   REST	API
+	(http://developer.appnotifications.com/p/user_notifications.html).
+	"""
+	# Create data to POST
+	data = {}
 
-    When  `debug` is  set  to `True`,  the XML  result  of the  HTTP request  is
-    displayed on `sys.stderr`.
+	if credentials is None or credentials == "":
+		raise ValueError("Invalid user credentials")
+	if message is None or message == "":
+		raise ValueError("Invalid message")
 
-    This  function  returns  a  boolean  indicating  if  the  message  was  sent
-    successfuly.
+	data['user_credentials'] = credentials
+	data['notification[message]'] = message
 
-    """
-    # Create data to POST
-    data = {}
+	for key in ("title", "subtitle", "long_message", "long_message_preview",
+				"icon_url", "message_level", "action_loc_key", "run_command"):
+		value = locals()[key]
+		if value is not None:
+			data['notification[{0}]'.format(key)] = value
 
-    if credentials is None or credentials == "":
-        raise ValueError("Invalid user credentials")
-    if message is None or message == "":
-        raise ValueError("Invalid message")
-    
-    data['user_credentials'] = credentials
-    data['notification[message]'] = message
+	if not (-2 <= message_level <= 2):
+		raise ValueError("message_level must be an integer between -2 and 2")
 
-    for key in ("title", "subtitle", "long_message", "long_message_preview",
-                "icon_url", "message_level", "action_loc_key", "run_command"):
-        value = locals()[key]
-        if value is not None:
-            data['notification[{0}]'.format(key)] = value
+	if silent:
+		data['notification[silent]'] = 1
+	else:
+		data['notification[silent]'] = 0
+		if not (1 <= sound <= 40):
+			raise ValueError("sound must be an integer between 1 and 40")
+		data['notification[sound]'] = "{0}.caf".format(sound)
 
-    if silent:
-        data['notification[silent]'] = 1
-    else:
-        data['notification[silent]'] = 0
-        if not 1 <= sound <= 7:
-            raise ValueError("sound must be an integer between 1 and 7")
-        data['notification[sound]'] = "{0}.caf".format(sound)
+	# Encode the data, trying to deal with Unicode
+	for k in data:
+		if type(data[k]) is str:
+			data[k] = data[k].encode('utf-8')
 
-    # Encode the data, trying to deal with Unicode
-    for k in data:
-        if type(data[k]) is str:
-            data[k] = data[k].encode('utf-8')
-    
-    data = urlencode(data).encode('utf-8')
+	data = urlencode(data).encode('utf-8')
 
-    # Send the notification
-    u = urlopen(SEND_URL, data)
-    success = (u.getcode() == 200)
-    if debug:
-        sys.stderr.write(u.read().decode('utf-8'))
-    u.close()
+	# Send the notification
+	u = urlopen(SEND_URL, data)
+	success = (u.getcode() == 200)
+	if debug:
+		sys.stderr.write(u.read().decode('utf-8'))
+	u.close()
 
-    return(success)
+	return(success)
 
 
 def send_async(*args, **kwargs):
-    """Send  a  notification, returning  immediately,  without  waiting for  the
-    message to be sent.
+	"""Send  a  notification, returning  immediately,  without  waiting for  the
+	message to be sent.
+	
+	@param args: see L{send}
+	
+	@param kwargs: see L{send}
 
-    This function does return the ID of the thread that does the HTTP request.
-    
-    """
-    thr = threading.Thread(target=send, args=args, kwargs=kwargs)
-    thr.daemon = True
-    thr.start()
-    return(thr)
+	This function does return the ID of the thread that does the HTTP request.
+	"""
+	thr = threading.Thread(target=send, args=args, kwargs=kwargs)
+	thr.daemon = True
+	thr.start()
+	return(thr)
 
 
 if __name__ == '__main__':
-    import sys
-
-    if len(sys.argv) != 3:
-        sys.stderr.write("Syntax: {0} credentials message".format(sys.argv[0]))
-    else:
-        send(sys.argv[1], sys.argv[2], debug=True)
+	if len(sys.argv) != 3:
+		sys.stderr.write("Syntax: {0} credentials message".format(sys.argv[0]))
+	else:
+		send(sys.argv[1], sys.argv[2], debug=True)
