@@ -150,8 +150,8 @@ def send(credentials, message, title=None, subtitle=None, long_message=None,
 	@raise ValueError: Is raised if:
 		- Invalid user credentials were given
 		- Invalid message was given
-		- Sound param is not within valid range
-		- 
+		- sound param is not within valid range
+		- message_level is not within valid range
 	
 	@note: The first two arguments (credentials  and message) are mandatory, 
 	all of the others are optional. They are  the same as the various identifiers 
