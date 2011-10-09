@@ -2,7 +2,8 @@ notifications	notifications-module.html
 notifications.CREDENTIALS_URL	notifications-module.html#CREDENTIALS_URL
 notifications._py3	notifications-module.html#_py3
 notifications.send	notifications-module.html#send
-notifications.__package__	notifications-module.html#__package__
+notifications.__loader__	notifications-module.html#__loader__
 notifications.get_credentials	notifications-module.html#get_credentials
 notifications.SEND_URL	notifications-module.html#SEND_URL
+notifications.__package__	notifications-module.html#__package__
 notifications.send_async	notifications-module.html#send_async
