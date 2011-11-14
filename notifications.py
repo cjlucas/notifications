@@ -33,7 +33,7 @@ the message to be sent.
 
 __author__ = ("Thomas Jost <thomas.jost@gmail.com>,"
 			"Chris Lucas <cjlucas07@gmail.com>")
-__version__ = "0.3"
+__version__ = "0.3.1"
 
 import sys
 import threading
@@ -42,13 +42,15 @@ import xml.dom.minidom
 _py3 = sys.version_info > (3,)
 
 if _py3:
-	from urllib.request import urlopen #@UnusedImport
+	from urllib.request import urlopen, HTTPError, URLError#@UnusedImport
 	from urllib.parse import urlencode #@UnusedImport
 else:
-	from urllib import urlencode, urlopen #@Reimport @UnresolvedImport
+	from urllib2 import urlopen, HTTPError, URLError #@Reimport @UnresolvedImport
+	from urllib import urlencode #@Reimport @UnresolvedImport
 
 CREDENTIALS_URL = "https://www.appnotifications.com/user_session.xml"
 SEND_URL = "https://www.appnotifications.com/account/notifications.xml"
+HTTP_TIMEOUT = 5
 
 def get_credentials(email, password):
 	"""Get the user's credentials token.
@@ -76,7 +78,15 @@ def get_credentials(email, password):
 	data = urlencode(data).encode('utf-8')
 
 	# Send them
-	u = urlopen(CREDENTIALS_URL, data)
+	try:
+		u = urlopen(CREDENTIALS_URL, data, timeout=HTTP_TIMEOUT)
+	except HTTPError as e:
+		_handle_httperror(e)
+		return(-1)
+	except URLError as e:
+		_handle_urlerror(e)
+		return(-1)
+
 	resp_code = u.getcode()
 	assert resp_code == 200, "HTTP Response Code: {0}".format(resp_code)
 
@@ -194,7 +204,15 @@ def send(credentials, message, title=None, subtitle=None, long_message=None,
 	data = urlencode(data).encode('utf-8')
 
 	# Send the notification
-	u = urlopen(SEND_URL, data)
+	try:
+		u = urlopen(SEND_URL, data, timeout=HTTP_TIMEOUT)
+	except HTTPError as e:
+		_handle_httperror(e)
+		return(-1)
+	except URLError as e:
+		_handle_urlerror(e)
+		return(-1)
+
 	success = (u.getcode() == 200)
 	if debug:
 		sys.stderr.write(u.read().decode('utf-8'))
@@ -218,6 +236,16 @@ def send_async(*args, **kwargs):
 	thr.start()
 	return(thr)
 
+def _handle_httperror(e):
+	sys.stderr.write("*** Caught HTTPError ***\n")
+	sys.stderr.write("*** url: {0}\n".format(e.url))
+	sys.stderr.write("*** code: {0}\n".format(e.code))
+	sys.stderr.write("*** msg: {0}\n".format(e.msg))
+
+def _handle_urlerror(e):
+	sys.stderr.write("*** Caught URLError ***\n")
+	e = e.__dict__
+	for k in e.keys(): sys.stderr.write("*** {0}: {1}\n".format(k, e[k]))
 
 if __name__ == '__main__':
 	if len(sys.argv) != 3:

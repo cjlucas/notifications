@@ -1,7 +1,12 @@
-v0.3 (Chris Lucas)
-------------------
+v0.3.1 (Chris Lucas <cjlucas07@gmail.com>)
+------
+- Added timeout support (notifications.HTTP_TIMEOUT)
+- Added HTTPError handling
+
+v0.3 (Chris Lucas <cjlucas07@gmail.com>)
+----
 - Python 3 support
 
-v0.2 (Thomas Jost)
---------------------
+v0.2 (Thomas Jost <thomas.jost@gmail.com>)
+----
 - Initial Release
