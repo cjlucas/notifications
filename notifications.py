@@ -31,28 +31,32 @@ the message to be sent.
 
 """
 
-__author__ = ("Thomas Jost <thomas.jost@gmail.com>,"
+__author__ = ("Thomas Jost <thomas.jost@gmail.com>, "
 			"Chris Lucas <cjlucas07@gmail.com>")
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 
 import sys
 import threading
-import xml.dom.minidom
 
 _py3 = sys.version_info > (3,)
 
 if _py3:
-	from urllib.request import urlopen, HTTPError, URLError#@UnusedImport
-	from urllib.parse import urlencode #@UnusedImport
+	from urllib.request import urlopen, HTTPError, URLError
+	from urllib.parse import urlencode
+	from io import StringIO
 else:
 	from urllib2 import urlopen, HTTPError, URLError #@Reimport @UnresolvedImport
 	from urllib import urlencode #@Reimport @UnresolvedImport
+	from StringIO import StringIO #@Reimport @UnresolvedImport
 
-CREDENTIALS_URL = "https://www.appnotifications.com/user_session.xml"
-SEND_URL = "https://www.appnotifications.com/account/notifications.xml"
+try: import simplejson as json
+except ImportError: import json
+
+CREDENTIALS_URL = "https://www.appnotifications.com/user_session.json"
+SEND_URL = "https://www.appnotifications.com/account/notifications.json"
 HTTP_TIMEOUT = 5
 
-def get_credentials(email, password):
+def get_credentials(email, password, debug=False):
 	"""Get the user's credentials token.
 	
 	@param email: user's email address
@@ -61,14 +65,22 @@ def get_credentials(email, password):
 	@param password: user's password
 	@type password: str
 	
-	@return: A unique token required to access the API
-	@rtype: bytes
+	@param debug: writes the response from the API to sys.stderr
+	@type debug: bool
+	
+	@return: A unique token required to access the API, or -1 if there was 
+	an error sending the request.
+	@rtype: str
 	
 	@raise AssertionError: Is raised if:
 		- The HTTP response code is not 200
-		- If the token cannot be found (usually caused by incorrect
-		email and/or password info)
+		- API returned error (usually invalid email/password)
+	@raise ValueError: Is raised if:
+		- JSON couldn't be parsed
+		- Invalid username/password given
+		- Unrecognizable response is received
 	"""
+	cred_key = 'single_access_token'
 
 	# Create data to POST
 	data = {
@@ -90,15 +102,26 @@ def get_credentials(email, password):
 	resp_code = u.getcode()
 	assert resp_code == 200, "HTTP Response Code: {0}".format(resp_code)
 
-	# Parse the XML response
-	response = u.read()
+	# Parse the JSON response
+	resp = u.read().decode('utf-8')
+	if debug: sys.stderr.write(resp)
 	u.close()
-	doc = xml.dom.minidom.parseString(response)
-	token = doc.getElementsByTagName("single-access-token")
-	assert len(token) > 0, \
-		"single-access-token couldn't be found. Email and password correct?"
 
-	return(token[0].firstChild.data)
+	resp_dict = json.load(StringIO(resp))
+	#if debug: sys.stderr.write(str(resp_dict))
+
+	assert 'error' not in resp_dict.keys(), resp_dict['error']
+
+	if cred_key in resp_dict.keys(): return(resp_dict[cred_key])
+	else: raise ValueError("Unknown response received: {0}".format(resp_dict))
+
+	# old XML code
+	#doc = xml.dom.minidom.parseString(response)
+	#token = doc.getElementsByTagName("single-access-token")
+	#assert len(token) > 0, \
+	#	"single-access-token couldn't be found. Email and password correct?"
+
+	#return(token[0].firstChild.data)
 
 
 def send(credentials, message, title=None, subtitle=None, long_message=None,
@@ -132,7 +155,7 @@ def send(credentials, message, title=None, subtitle=None, long_message=None,
 	@param icon_url: The icon on the left in the listing. (optional)
 	@type icon_url: str
 	
-	@param message_level: the importance of the notification, from -2 to 2.
+	@param message_level: the importance of the notification, from -2 to 2. (optional)
 	@type message_level: int
 	
 	@param silent: Should this be silent? (no alert window, just a badge number).
@@ -149,17 +172,17 @@ def send(credentials, message, title=None, subtitle=None, long_message=None,
 	U{this list<https://gist.github.com/1217045>}. (Valid range: 1-40)
 	@type sound: int
 	
-	@param debug: When set to True, the XML result of the HTTP request is
-	written to sys.stderr
+	@param debug: writes the response from the API to sys.stderr
 	@type debug: bool
 	
-	@return: A  boolean  indicating  if  the  message  was  sent
-	successfully.
-	@rtype: bool
+	@return: The ID of the notification, or -1 if there was an error 
+	sending the request.	
+	@rtype: int
 	
 	@raise ValueError: Is raised if:
 		- Invalid user credentials were given
 		- Invalid message was given
+		- JSON couldn't be parsed
 		- sound param is not within valid range
 		- message_level is not within valid range
 	
@@ -213,12 +236,15 @@ def send(credentials, message, title=None, subtitle=None, long_message=None,
 		_handle_urlerror(e)
 		return(-1)
 
-	success = (u.getcode() == 200)
-	if debug:
-		sys.stderr.write(u.read().decode('utf-8'))
+	#success = (u.getcode() == 200)
+	resp = u.read().decode('utf-8')
+	if debug: sys.stderr.write(resp)
 	u.close()
 
-	return(success)
+	resp_dict = json.load(StringIO(resp))
+
+	if 'id' in resp_dict.keys(): return(resp_dict['id'])
+	else: return(-1)
 
 
 def send_async(*args, **kwargs):

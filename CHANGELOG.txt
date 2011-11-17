@@ -1,4 +1,12 @@
-v0.3.1 (Chris Lucas <cjlucas07@gmail.com>)
+v0.3.2 (November 16, 2011)
+------
+- Added debug support for get_credentials
+- get_credentials now raises more specific exceptions (see docs)
+
+- API changes:
+  - send() now returns the ID of the notification instead of a bool (see docs)
+
+v0.3.1 (November 14, 2011)
 ------
 - Added timeout support (notifications.HTTP_TIMEOUT)
 - Added HTTPError handling
