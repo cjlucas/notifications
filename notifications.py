@@ -32,7 +32,7 @@ the message to be sent.
 """
 
 __author__ = ("Thomas Jost <thomas.jost@gmail.com>, "
-			"Chris Lucas <cjlucas07@gmail.com>")
+			"Chris Lucas <chris@chrisjlucas.com>")
 __version__ = "0.3.2"
 
 import sys
